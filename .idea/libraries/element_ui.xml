@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="element-ui">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/element-ui.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
