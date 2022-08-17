@@ -10,4 +10,5 @@ public class Student {
     private String password;
 
     private TeamStatus status;
+    private boolean host;
 }
