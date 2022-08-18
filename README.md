@@ -1,2 +1,2 @@
 # front-end page
-element-ui zip file needs to be downloaded 
+element-ui file needs to be downloaded and unzipped
