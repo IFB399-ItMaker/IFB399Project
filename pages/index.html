@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www/thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+
+<!--Navigation-->
+<div id="navbar">
+<!--    <input type="text" value="ajhd" v-model="url.name"></input>-->
+<!--    <el-button type="primary" @click="showvalue">显示</el-button>-->
+    <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#ffd04b">
+
+        <el-menu-item index="5" disabled style="font-size: 20px">personal detail</el-menu-item>
+
+        <el-menu-item index="1">
+            <router-link to="/detail">personal detail</router-link>
+        </el-menu-item>
+
+        <el-menu-item index="2">
+            <router-link to="/search">Search</router-link>
+        </el-menu-item>
+
+        <el-menu-item index="3">
+            <router-link to="/MyGroup">MyGroup</router-link>
+        </el-menu-item>
+
+        <el-menu-item index="4">
+            <router-link to="/Message">Message</router-link>
+        </el-menu-item>
+
+    </el-menu>
+    <router-view></router-view>
+</div>
+
+
+<template id="detail">
+    <div>
+        <iframe src="/pages/JumpToPersonDetailPage"  frameborder="0"></iframe>
+    </div>
+</template>
+
+<template id="search">
+    <div>
+        <iframe src="../pages/SearchPage.html" frameborder="0"></iframe>
+    </div>
+</template>
+
+<template id="MyGroup">
+    <div>
+        <iframe src="../pages/MyGroup.html" frameborder="0"></iframe>
+    </div>
+</template>
+
+<template id="Message">
+    <div>
+        <iframe src="../pages/Message.html" frameborder="0"></iframe>
+    </div>
+</template>
+
+</body>
+
+<script src="../js/axios-0.18.0.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../element-ui/lib/index.js"></script>
+<script src="../js/vue-router.js"></script>
+<link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="../css/router.css">
+<script>
+    var URL = "tyj"
+
+    let routers = new VueRouter({
+        routes: [
+            {
+                path: "/",
+                component: {template: '#detail'}
+            },
+            {
+                path: "/detail",
+                component: {template: '#detail'}
+            },
+            {
+                path: "/search",
+                component: {template: '#search'}
+            },
+            {
+                path: "/MyGroup",
+                component: {template: '#MyGroup'}
+            },
+            {
+                path: "/Message",
+                component: {template: '#Message'}
+            }
+        ]
+    })
+
+    Vue.config.productionTip = false;
+    new Vue({
+        el: "#navbar",
+        data() {
+            return {
+                url:{
+                    name:"666",
+                },
+                navaList: [
+                    {
+                        text: "personal detail",
+                        path: "/detail"
+                    },
+                    {
+                        text: "Search",
+                        path: "/search"
+                    },
+                    {
+                        text: "MyGroup",
+                        path: "/MyGroup"
+                    },
+                    {
+                        text: "Message",
+                        path: "/Message"
+                    }
+                ],
+                activeIndex: "1"
+            }
+        },
+        router: routers,
+        methods: {
+            handleSelect(key, keyPath) {
+                // console.log(key, keyPath);
+            },
+            showvalue(){
+                console.log("ddd")
+                console.log(this.url.name)
+            }
+        }
+    });
+</script>
+</html>
