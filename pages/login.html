@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- https://codepen.io/danielkvist/pen/LYNVyPL -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" >
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="../css/login.css">
+</head>
+
+<body>
+
+
+  <div :class="!current?'right-panel-active':''" class="container" id="app">
+
+    <!-- Student Sign In -->
+    <div class="container__form container--signup" >
+      <div class="form" id="form2">
+        <h2 class="form__title">Sign In(Student)</h2>
+        <input type="text" placeholder="StudentName" v-model="studentForm.firstname" class="input" />
+        <input type="password" placeholder="Password" v-model="studentForm.password" class="input" />
+        <a href="#" class="link">Forgot your password?</a>
+        <button class="btn" @click="Submit">Sign In</button>
+      </div>
+    </div>
+    <!-- Staff Sign In -->
+    <div class="container__form container--signin">
+      <form action="#" class="form" id="form1">
+        <h2 class="form__title">Sign In(Staff)</h2>
+        <input type="text" placeholder="StaffName" v-model="staffForm.name"class="input" />
+        <input type="password" placeholder="Password" v-model="staffForm.password"class="input" />
+        <a href="#" class="link">Forgot your password?</a>
+        <button class="btn"@click="Submit">Sign In</button>
+      </form>
+    </div>
+
+    <!-- Overlay -->
+    <div class="container__overlay">
+      <div class="overlay">
+        <div class="overlay__panel overlay--left">
+          <button class="btn" id="signIn" @click="current=true">Staff</button>
+        </div>
+        <div class="overlay__panel overlay--right">
+          <button class="btn" id="signUp" @click="current=false">Student</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+</body>
+
+
+<script src="../js/vue.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script src="../element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+<script>
+  new Vue({
+    el:"#app",
+    data(){
+      return{
+        current: false,
+        studentForm:{
+          firstname: "Phoebe",
+          password: ""
+        },
+        staffForm:{
+          name:"",
+          password:""
+
+        }
+      }
+
+    },
+    methods:{
+      Submit(){
+        axios({
+          method:"POST",
+          url:"http://localhost/students/login",
+          data: this.studentForm
+        })
+        .then(res =>{
+          /*登录失败,弹出消息框*/
+          if(res.data.code !== 1){
+            this.$message.error('Invalid userName or password');
+          }
+          /*登录成功,存到localStorage*/
+          else{
+            localStorage.setItem("studentInfo",JSON.stringify(res.data.data))
+            // console.log(res.data.data)
+            window.location.href = "/pages/index.html"
+
+          }
+        })
+      },
+
+    }
+  })
+</script>
+
+</html>
