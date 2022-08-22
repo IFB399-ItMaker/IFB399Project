@@ -9,6 +9,13 @@ public class Student {
     private String email;
     private String password;
 
-    private TeamStatus status;
-    private boolean host;
+    public TeamStatus status;
+    private Membership membership;
+
+    /* Student forms a team. Creates new membership with constructor that automatically forms new team
+    and makes the Student the host.*/
+    public void FormTeam(){
+        status = TeamStatus.FORM;
+        membership = new Membership();
+    }
 }
