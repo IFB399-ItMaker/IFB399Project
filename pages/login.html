@@ -17,7 +17,7 @@
     <div class="container__form container--signup" >
       <div class="form" id="form2">
         <h2 class="form__title">Sign In(Student)</h2>
-        <input type="text" placeholder="StudentName" v-model="studentForm.name" class="input" />
+        <input type="text" placeholder="StudentName" v-model="studentForm.firstname" class="input" />
         <input type="password" placeholder="Password" v-model="studentForm.password" class="input" />
         <a href="#" class="link">Forgot your password?</a>
         <button class="btn" @click="Submit">Sign In</button>
@@ -50,28 +50,6 @@
 
 
 
-
-<script>
-  // const signInBtn = document.getElementById("signIn");
-  // const signUpBtn = document.getElementById("signUp");
-  // const fistForm = document.getElementById("form1");
-  // const secondForm = document.getElementById("form2");
-  // const container = document.querySelector(".container");
-
-  // signInBtn.addEventListener("click", () => {
-  //   container.classList.remove("right-panel-active");
-  // });
-
-  // signUpBtn.addEventListener("click", () => {
-  //   container.classList.add("right-panel-active");
-  // });
-
-  // fistForm.addEventListener("submit", (e) => e.preventDefault());
-  // secondForm.addEventListener("submit", (e) => e.preventDefault());
-
-</script>
-
-
 </body>
 
 
@@ -86,7 +64,7 @@
       return{
         current: false,
         studentForm:{
-          name: "",
+          firstname: "Phoebe",
           password: ""
         },
         staffForm:{
@@ -105,11 +83,16 @@
           data: this.studentForm
         })
         .then(res =>{
-          if(!res.data){
+          /*登录失败,弹出消息框*/
+          if(res.data.code !== 1){
             this.$message.error('Invalid userName or password');
-          }else{
-            window.location.href = "http://localhost/pages/JumpTo?studentName=" + this.studentForm.name
-            // window.location.href = "http://localhost/pages/index.html"
+          }
+          /*登录成功,存到localStorage*/
+          else{
+            localStorage.setItem("studentInfo",JSON.stringify(res.data.data))
+            // console.log(res.data.data)
+            window.location.href = "/pages/index.html"
+
           }
         })
       },

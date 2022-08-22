@@ -1,13 +1,98 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www/thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Test</title>
 </head>
 <body>
-<!--Navigation-->
+
 <div id="app">
-    <span>Personal Detail</span>
+    <br>
+    <div>
+        <img src="../images/headportrait.png" style="width: 150px;height: 150px">
+        <el-button type="primary" size="mini" @click="showDialog">Edit</el-button>
+    </div>
+
+    <el-row :gutter="20">
+        <el-col :span="4">
+            <div class="grid-content bg-purple">FirstName</div>
+        </el-col>
+        <el-col :span="12">
+            <div class="grid-content bg-purple">{{PersonalInfo.firstname}}</div>
+        </el-col>
+    </el-row>
+    <el-row :gutter="20">
+        <el-col :span="4">
+            <div class="grid-content bg-purple">Major</div>
+        </el-col>
+        <el-col :span="12">
+            <div class="grid-content bg-purple">{{PersonalInfo.major}}</div>
+        </el-col>
+    </el-row>
+    <el-row :gutter="20">
+        <el-col :span="4">
+            <div class="grid-content bg-purple">Minor</div>
+        </el-col>
+        <el-col :span="12">
+            <div class="grid-content bg-purple">{{PersonalInfo.minor}}</div>
+        </el-col>
+    </el-row>
+    <el-row :gutter="20">
+        <el-col :span="4">
+            <div class="grid-content bg-purple">Skills</div>
+        </el-col>
+        <el-col :span="12">
+            <div class="grid-content bg-purple">{{PersonalInfo.skills}}</div>
+        </el-col>
+    </el-row>
+    <el-row :gutter="20">
+        <el-col :span="4">
+            <div class="grid-content bg-purple">Email</div>
+        </el-col>
+        <el-col :span="12">
+            <div class="grid-content bg-purple">{{PersonalInfo.email}}</div>
+        </el-col>
+    </el-row>
+    <el-row :gutter="20">
+        <el-col :span="4">
+            <div class="grid-content bg-purple">self-introduction</div>
+        </el-col>
+        <el-col :span="12">
+            <div class="grid-content bg-purple">{{PersonalInfo.selfIntroduction}}
+            </div>
+        </el-col>
+    </el-row>
+
+    <el-dialog
+            title="Edit"
+            :visible.sync="dialogVisible"
+            width="30%"
+    >
+        <el-form ref="form" :model="editForm" label-width="80px">
+            <el-form-item label="Major">
+                <el-input v-model="editForm.major"></el-input>
+            </el-form-item>
+            <el-form-item label="Minor">
+                <el-input v-model="editForm.minor"></el-input>
+            </el-form-item>
+            <el-form-item label="Skills">
+                <el-input v-model="editForm.skills"></el-input>
+            </el-form-item>
+            <el-form-item label="Email">
+                <el-input v-model="editForm.email"></el-input>
+            </el-form-item>
+            <el-form-item label="Intro">
+                <el-input v-model="editForm.selfIntroduction"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button @click="dialogVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="EditSelfInfo">Edit</el-button>
+            </el-form-item>
+
+        </el-form>
+    </el-dialog>
+
+
 </div>
 
 
@@ -17,21 +102,89 @@
 <script src="../js/vue.js"></script>
 <script src="../element-ui/lib/index.js"></script>
 <link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+<style>
+    .el-row {
+        margin-bottom: 20px;
+    }
+
+    .el-col {
+        border-radius: 4px;
+    }
+
+    .bg-purple-dark {
+        background: #99a9bf;
+    }
+
+    .bg-purple {
+        background: #d3dce6;
+    }
+
+    .bg-purple-light {
+        background: #e5e9f2;
+    }
+
+    .grid-content {
+        border-radius: 4px;
+        min-height: 36px;
+    }
+
+    .row-bg {
+        padding: 10px 0;
+        background-color: #f9fafc;
+    }
+</style>
 <script>
     Vue.config.productionTip = false;
     new Vue({
-        el:"#app",
-        data(){
-            return{
+        el: "#app",
+        data() {
+            return {
                 activeIndex: '1',
-                activeIndex2: '1'
+                PersonalInfo: {},
+                editForm: {
+                    major: '',
+                    minor: '',
+                    skills: '',
+                    email: '',
+                    selfIntroduction: '',
+                },
+                dialogVisible: false
+            }
+        },
+        created() {
+            const studentInfo = window.localStorage.getItem("studentInfo")
+            if (studentInfo) {
+                this.PersonalInfo = JSON.parse(studentInfo)
             }
         },
         methods: {
             handleSelect(key, keyPath) {
-                console.log(key, keyPath);
+
+            },
+            showDialog(){
+                this.dialogVisible = true
+                this.editForm.firstname = this.PersonalInfo.firstname
+                this.editForm.major = this.PersonalInfo.major
+                this.editForm.minor = this.PersonalInfo.minor
+                this.editForm.skills = this.PersonalInfo.skills
+                this.editForm.email = this.PersonalInfo.email
+                this.editForm.selfIntroduction = this.PersonalInfo.selfIntroduction
+                this.editForm.id = this.PersonalInfo.id
+            },
+            EditSelfInfo(){
+                axios({
+                    method:"POST",
+                    url:"/students/editInfo",
+                    data:this.editForm
+                })
+                .then(res =>{
+                    this.PersonalInfo = res.data.data
+                    this.dialogVisible = false;
+                })
             }
 
-    }});
+
+        }
+    });
 </script>
 </html>

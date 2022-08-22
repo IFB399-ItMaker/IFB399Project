@@ -5,6 +5,7 @@
     <title>Test</title>
 </head>
 <body>
+
 <!--Navigation-->
 <div id="navbar">
     <el-menu
@@ -33,16 +34,19 @@
         <el-menu-item index="4">
             <router-link to="/Message">Message</router-link>
         </el-menu-item>
+        <br>
+        <!--        <el-button type="text" style="float: right;font-size: 20px;color: #3a8ee6"  @click="logout">logout</el-button>-->
+        <img src="../images/btn_close@2x.png" @click="logout" style="float: right;font-size: 20px;color: #3a8ee6"/>
+
 
     </el-menu>
-
     <router-view></router-view>
-
-
 </div>
+
 <template id="detail">
     <div>
-        <iframe src="../pages/PersonalDetail.html" frameborder="0"></iframe>
+        <iframe src="../pages/PersonalDetail.html" frameborder="0" style="width: 1400px;height: 1000px"
+                scrolling="no"></iframe>
     </div>
 </template>
 
@@ -66,6 +70,7 @@
 
 </body>
 
+
 <script src="../js/axios-0.18.0.js"></script>
 <script src="../js/vue.js"></script>
 <script src="../element-ui/lib/index.js"></script>
@@ -73,6 +78,7 @@
 <link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
 <link rel="stylesheet" href="../css/router.css">
 <script>
+    var URL = "tyj"
 
     let routers = new VueRouter({
         routes: [
@@ -104,6 +110,10 @@
         el: "#navbar",
         data() {
             return {
+                studentInfo: {},
+                url: {
+                    name: "666",
+                },
                 navaList: [
                     {
                         text: "personal detail",
@@ -127,9 +137,20 @@
         },
         router: routers,
         methods: {
-            handleSelect(key, keyPath) {
-                // console.log(key, keyPath);
+            handleSelect(key, keyPath) {},
+            logout() {
+                axios({
+                    method: "POST",
+                    url: "http://localhost/students/logout"
+                })
+                    .then(res => {
+                        if (res.data.code === 1) {
+                            localStorage.removeItem('studentInfo')
+                            window.location.href = '/pages/login.html'
+                        }
+                    })
             }
+
         }
     });
 </script>
