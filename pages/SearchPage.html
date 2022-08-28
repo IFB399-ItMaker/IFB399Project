@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<style>
+    .sidebar-container {
+        transition: width 0.28s;
+        width: 190px !important;
+        height: 100%;
+        z-index: 1001;
+        overflow: hidden;
+    }
+</style>
+<body>
+<!--Navigation-->
+<div id="app">
+    <div style="margin-left: 300px">
+        <span>Search Dashboard</span>
+        <input v-text=""></input>
+        <el-button type="primary" @click="init"> Search</el-button>
+    </div>
+
+
+    <template>
+        <!--Filter Condition-->
+        <el-scrollbar wrap-class="scrollbar-wrapper">
+            <!--Radio-->
+            <template>
+                <el-radio v-model="student.major" label="CS">CS</el-radio>
+                <div></div>
+                <el-radio v-model="student.major" label="IS">IS</el-radio>
+                <div></div>
+                <el-radio v-model="student.major" label="All">All</el-radio>
+            </template>
+            <br><br><br>
+
+            <!--CheckBox-->
+            <template>
+                <el-checkbox-group v-model="checkList">
+                    <el-checkbox label="Java"></el-checkbox>
+                    <div></div>
+                    <el-checkbox label="Php"></el-checkbox>
+                    <div></div>
+                    <el-checkbox label="Javasript"></el-checkbox>
+                </el-checkbox-group>
+                <br><br><br>
+            </template>
+
+            <template>
+                <el-radio v-model="student.major" label="Japan">Japan</el-radio>
+                <div></div>
+                <el-radio v-model="student.major" label="Australia">Australia</el-radio>
+                <div></div>
+                <el-radio v-model="student.major" label="France">France</el-radio>
+            </template>
+            <br><br><br>
+        </el-scrollbar>
+
+        <!--Table Info-->
+        <el-table
+                :data="tableData"
+                style="width: 100%;margin-left: 300px"
+                :row-class-name="tableRowClassName">
+            <el-table-column
+                    prop="id"
+                    label="ID"
+                    width="230">
+            </el-table-column>
+            <el-table-column
+                    prop="surname"
+                    label="Surname"
+                    width="230"
+            >
+            </el-table-column>
+            <el-table-column
+                    prop="firstname"
+                    label="Firstname"
+                    width="230"
+            >
+            </el-table-column>
+            <el-table-column
+                    prop="major"
+                    label="Major"
+                    width="230">
+
+            </el-table-column>
+            <el-table-column
+                    prop="minor"
+                    label="Minor"
+                    width="230">
+
+            </el-table-column>
+
+            <el-table-column
+                    prop="operation"
+                    label="Operation"
+                    width="230"
+                    align="center">
+                <template slot-scope="scope">
+                    <el-button type="primary" round v-on:click="handleEdit(scope.row) ">Detail</el-button>
+                    <el-button type="warning" round v-on:click="handleDelete(scope.row) ">Invite</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </template>
+
+    <!--分页-->
+    <el-pagination
+            style="margin-left: 300px"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[5, 10, 15, 20]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalCount">
+    </el-pagination>
+
+
+
+</div>
+
+
+<style>
+    .el-table .warning-row {
+        background: oldlace;
+    }
+
+    .el-table .success-row {
+        background: #f0f9eb;
+    }
+</style>
+</body>
+<script src="../js/axios-0.18.0.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+<script>
+    Vue.config.productionTip = false;
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                tableData: [
+                    {
+                        id: '11151978',
+                        firstname: "Tom",
+                        surname: '王小虎',
+                        major: 'cs',
+                        minor: 'cs',
+                    }, {
+                        id: '11151978',
+                        firstname: "Tom",
+                        surname: '王小虎',
+                        major: 'cs',
+                        minor: 'music',
+                    }, {
+                        id: '11151978',
+                        firstname: "Tom",
+                        surname: '王小虎',
+                        major: 'dfsgfd',
+                        minor: 'dgehyr',
+                    }, {
+                        id: '11151978',
+                        firstname: "Tom",
+                        surname: '王小虎',
+                        major: 'ytukyu',
+                        minor: 'yuyes',
+                    }
+                ],
+                totalCount: 0,
+                currentPage: 1,
+                pageSize: 5,
+                // radio:'1',
+                student:{
+                    id:'',
+                    major:'All',
+                    minor:'',
+                },
+                checkList: []
+
+            }
+        },
+        methods: {
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+            },
+
+            tableRowClassName({row, rowIndex}) {
+                if (rowIndex === 1 || rowIndex === 5 || rowIndex === 9) {
+                    return 'warning-row';
+                } else if (rowIndex === 3 || rowIndex === 7) {
+                    return 'success-row';
+                } else if (rowIndex % 2 === 0) {
+                    return '';
+                }
+
+            },
+            handleEdit(row) {
+                console.log(row);
+            },
+            handleDelete(row) {
+                console.log(row);
+            },
+            //分页
+            handleSizeChange(val) {
+                this.pageSize = val
+                this.init()
+            },
+            handleCurrentChange(val) {
+                this.currentPage = val
+                this.init()
+            },
+            init() {
+                axios({
+                    method: "POST",
+                    url: "http://localhost/students/pagination?currentPage=" + this.currentPage
+                        + "&pageSize=" + this.pageSize + "&checkList=" + this.checkList,
+                    data:this.student
+                })
+                    .then(res => {
+                        if (res.data.code === 1) {
+                            this.tableData = res.data.data.records;
+                            this.totalCount = res.data.data.total;
+                        }
+
+                    })
+            }
+
+        },
+        created(){
+            this.init()
+        },
+    });
+</script>
+</html>
