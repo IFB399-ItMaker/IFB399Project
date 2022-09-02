@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Test</title>
 </head>
 <style>
@@ -12,20 +16,32 @@
         z-index: 1001;
         overflow: hidden;
     }
+
+    body{
+        overflow-x: hidden;
+    }
 </style>
 <body>
 <!--Navigation-->
 <div id="app">
-    <div style="margin-left: 300px">
-        <span>Search Dashboard</span>
-        <input v-text=""></input>
+    <!-- heading -->
+    <div style="position: absolute; top: 63px; left: 280px; font-size: 10px;">
+        <h3>Search Dashboard</h3>
+    </div>
+
+    <!-- search box     -->
+    <div style = "position:absolute; top: 115px; left: 260px;">
+        <input type="search" placeholder="Enter the information you need" v-text="" name="search" size = "105">
+    </div>
+    <div style = "position: absolute; top: 108px; left: 1077px;">
         <el-button type="primary" @click="init"> Search</el-button>
     </div>
+    
 
 
     <template>
         <!--Filter Condition-->
-        <el-scrollbar wrap-class="scrollbar-wrapper">
+        <el-scrollbar wrap-class="scrollbar-wrapper" style = "position: absolute; top: 70px; left: 20px;">
             <!--Radio-->
             <template>
                 <el-radio v-model="student.major" label="CS">CS</el-radio>
@@ -61,42 +77,42 @@
         <!--Table Info-->
         <el-table
                 :data="tableData"
-                style="width: 100%;margin-left: 300px"
+                style="position: absolute; max-width: 1399px; ; max-height: 440px; width: 1399px; height: 530px;overflow-x: hidden; overflow-y: auto; left: 255px; top: 180px;"
                 :row-class-name="tableRowClassName">
             <el-table-column
                     prop="id"
                     label="ID"
-                    width="230">
+                    width="190">
             </el-table-column>
             <el-table-column
                     prop="surname"
                     label="Surname"
-                    width="230"
+                    width="190"
             >
             </el-table-column>
             <el-table-column
                     prop="firstname"
                     label="Firstname"
-                    width="230"
+                    width="190"
             >
             </el-table-column>
             <el-table-column
                     prop="major"
                     label="Major"
-                    width="230">
+                    width="190">
 
             </el-table-column>
             <el-table-column
                     prop="minor"
                     label="Minor"
-                    width="230">
+                    width="190">
 
             </el-table-column>
 
             <el-table-column
                     prop="operation"
                     label="Operation"
-                    width="230"
+                    width="220"
                     align="center">
                 <template slot-scope="scope">
                     <el-button type="primary" round v-on:click="handleEdit(scope.row) ">Detail</el-button>
@@ -108,7 +124,7 @@
 
     <!--分页-->
     <el-pagination
-            style="margin-left: 300px"
+            style="margin-left: 255px; margin-top: 630px;" 
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
@@ -122,7 +138,6 @@
 
 </div>
 
-
 <style>
     .el-table .warning-row {
         background: oldlace;
@@ -132,6 +147,7 @@
         background: #f0f9eb;
     }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 <script src="../js/axios-0.18.0.js"></script>
 <script src="../js/vue.js"></script>
