@@ -83,6 +83,19 @@
                 <div STYLE="background-color: gray; height:2px; width:280px; position: absolute; left: 100px; top:410px"></div>
                 <h3 class="text-light" style="position:absolute; top: 430px; left: 135px;">Your messages</h3>
                 <div class="media">
+                    <div id="wrapper" class="text-light" style="position:absolute; top: 500px; left: 125px; font-size: 15px; white-space: nowrap;">
+                        <ul>
+                        <li>Unread: One inviation from Jason Parker</li>
+                        <li>Unread: One invitation from Tony Stark</li>
+                        <li>Unread: One invitation from Jamie</li>
+                        <li>Unread: One inviation from </li>
+                        <li>Unread: One invation from</li>
+                        <li>Unread: One inviation from</li>
+                        <a href="">Unread: One inviation from</a>
+                        </ul>
+                    </div>
+                </div>
+                    
             </div>
          </div>
     </section>
@@ -114,6 +127,13 @@
         text-align: center;
         background: #318ce7;
     }
+    #wrapper {
+    
+        overflow-y:auto;
+    
+        max-height:150px;
+        max-width: 230px;
+    }
     body{
         overflow-x: auto;
         padding-left: 0px;
@@ -135,9 +155,28 @@
         cursor: pointer;
         
     }
-    .more_det_button:hover{
-        background-color: black;
-        color: white;
+    ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+    background: #888; 
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+    }
+        .more_det_button:hover{
+            background-color: black;
+            color: white;
     }
 </style>
 <script src="../js/axios-0.18.0.js"></script>
